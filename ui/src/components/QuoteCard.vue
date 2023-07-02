@@ -13,7 +13,7 @@
       {{ quote.explanation }}
     </v-card-text>
     <v-card-text v-else class="caption explanation-text">
-      {{ quote.explanation.substring(0, 150) + "..." }}
+      {{ quote.explanation?.substring(0, 150) + "..." }}
     </v-card-text>
   </v-card>
 </template>
