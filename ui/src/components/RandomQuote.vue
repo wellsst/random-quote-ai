@@ -10,35 +10,11 @@
         <v-btn outlined @click="fetchQuote" :disabled="loading">New Quote</v-btn>
       </v-col>
     </v-row>
-    <v-card class="mx-auto mb-4" max-width="344" outlined>
-      <v-card-title class="overline mb-4">
-        {{ quote.author }}
-      </v-card-title>
-      <v-card-text class="title mb-6">
-        {{ quote.content }}
-      </v-card-text>
-      <v-card-text class="caption">
-        {{ quote.explanation }}
-      </v-card-text>
-    </v-card>
+
+    <quote-card :quote="quote" />
+
     <transition-group tag="div" name="list" class="grid-container">
-      <v-card
-        class="mx-auto mb-4"
-        v-for="(oldQuote) in oldQuotes"
-        :key="oldQuote._id"
-        max-width="344"
-        outlined
-      >
-        <v-card-title class="overline mb-4">
-          {{ oldQuote.author }}
-        </v-card-title>
-        <v-card-text class="title mb-6">
-          {{ oldQuote.content }}
-        </v-card-text>
-        <v-card-text class="caption">
-          {{ oldQuote.explanation }}
-        </v-card-text>
-      </v-card>
+      <quote-card v-for="(oldQuote) in oldQuotes" :key="oldQuote._id" :quote="oldQuote" />
     </transition-group>
   </v-container>
 </template>
@@ -58,17 +34,33 @@
   opacity: 0;
   transform: translateY(30px);
 }
+
+.explanation-text {
+  line-height: 1.5;
+  white-space: pre-line; /* this preserves line breaks and spaces */
+}
+
+.read-more-btn {
+  font-weight: 600;
+  color: #1976d2;
+  margin-top: 10px;
+}
 </style>
 
 <script>
 import axios from "axios";
+import QuoteCard from './QuoteCard.vue';
 
 export default {
+  components: {
+    QuoteCard,
+  },
   data() {
     return {
       quote: {},
       oldQuotes: [],
-      loading: false
+      loading: false,
+      showMore: false,
     };
   },
   methods: {
