@@ -2,6 +2,11 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" class="text-center mb-5">
+        <v-progress-circular
+          v-if="loading"
+          indeterminate
+          color="primary"
+        />
         <v-btn outlined @click="fetchQuote">New Quote</v-btn>
       </v-col>
       <v-col cols="4">
@@ -48,11 +53,14 @@ export default {
     return {
       quote: {},
       oldQuotes: [],
+      loading: false,
     }
   },
   methods: {
     async fetchQuote() {
+      this.loading = true;
       const { data } = await axios.get('http://localhost:3000/quote');
+      this.loading = false;
       if (this.quote.content) {
         this.oldQuotes.unshift(this.quote);
       }
